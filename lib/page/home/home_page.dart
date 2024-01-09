@@ -82,8 +82,26 @@ class _HomePageState extends State<HomePage> {
                     },
                   );
                 }
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return ListView.builder(
+                  itemCount: state.hasReachedMax
+                      ? state.characters.length
+                      : state.characters.length + 1,
+                  controller: _scrollController,
+                  itemBuilder: (context, index) {
+                    if (index >= state.characters.length) {
+                      return state.hasReachedMax
+                          ? const SizedBox()
+                          : const Center(
+                              child: SizedBox(
+                                height: 24,
+                                width: 24,
+                                child:
+                                    CircularProgressIndicator(strokeWidth: 1.5),
+                              ),
+                            );
+                    }
+                    return CardCharacter(person: state.characters[index]);
+                  },
                 );
               },
             ),
