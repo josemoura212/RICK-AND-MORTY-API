@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rick_morty/page/home/cubit/home_cubit.dart';
-import 'package:rick_morty/page/home/widgets/filter_species.dart';
 import 'package:rick_morty/page/home/widgets/list_view_person.dart';
+import 'package:rick_morty/page/home/widgets/section_search.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _scrollController = ScrollController();
-  final _TextController = TextEditingController();
+  final _textController = TextEditingController();
 
   void _onScroll() {
     if (_isBottom(context.read<HomeCubit>().state)) {
@@ -59,29 +59,7 @@ class _HomePageState extends State<HomePage> {
           ),
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.fromLTRB(12, 50, 12, 50),
-                child: Column(
-                  children: [
-                    TextField(
-                      onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                      onChanged: (value) {},
-                      controller: _TextController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        fillColor: Colors.white,
-                        filled: true,
-                        hintText: 'Search',
-                        prefixIcon: Icon(Icons.search),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    const FilterSpecies(),
-                  ],
-                ),
-              ),
+              SectionSearch(textController: _textController),
               Expanded(
                   child: Container(
                 padding: const EdgeInsets.all(12),
