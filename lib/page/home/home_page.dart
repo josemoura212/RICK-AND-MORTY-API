@@ -48,57 +48,75 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.green,
-        body: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                children: [
-                  TextField(
-                    onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                    onChanged: (value) {},
-                    controller: _TextController,
-                    decoration:
-                        const InputDecoration(border: OutlineInputBorder()),
-                  ),
-                  const FilterSpecies(),
-                ],
-              ),
+        body: Container(
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            image: DecorationImage(
+              image: AssetImage('assets/images/peakpx.jpg'),
+              fit: BoxFit.cover,
+              opacity: .3,
             ),
-            Expanded(
-                child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-                  boxShadow: [
-                    BoxShadow(
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(1, 2),
-                    )
-                  ]),
-              child: BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) {
-                  return switch (state) {
-                    HomeInitial() => const Center(
-                        child: CircularProgressIndicator(),
+          ),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(12, 50, 12, 50),
+                child: Column(
+                  children: [
+                    TextField(
+                      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+                      onChanged: (value) {},
+                      controller: _TextController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintText: 'Search',
+                        prefixIcon: Icon(Icons.search),
                       ),
-                    HomeLoading() => ListViewPerson(
-                        characters: state.characters,
-                        scrollController: _scrollController),
-                    HomeSuccess() => ListViewPerson(
-                        characters: state.characters,
-                        scrollController: _scrollController),
-                    HomeError() => const Center(
-                        child: Text('error ao carregar'),
-                      ),
-                  };
-                },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    const FilterSpecies(),
+                  ],
+                ),
               ),
-            ))
-          ],
+              Expanded(
+                  child: Container(
+                padding: const EdgeInsets.all(12),
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(30)),
+                    boxShadow: [
+                      BoxShadow(
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(1, 2),
+                      )
+                    ]),
+                child: BlocBuilder<HomeCubit, HomeState>(
+                  builder: (context, state) {
+                    return switch (state) {
+                      HomeInitial() => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      HomeLoading() => ListViewPerson(
+                          characters: state.characters,
+                          scrollController: _scrollController),
+                      HomeSuccess() => ListViewPerson(
+                          characters: state.characters,
+                          scrollController: _scrollController),
+                      HomeError() => const Center(
+                          child: Text('error ao carregar'),
+                        ),
+                    };
+                  },
+                ),
+              ))
+            ],
+          ),
         ),
       ),
     );

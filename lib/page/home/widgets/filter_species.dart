@@ -26,8 +26,19 @@ class _FilterSpeciesState extends State<FilterSpecies> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        const Text('Species'),
+        const Text('Species',
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 16)),
         DropdownButton(
+          style: const TextStyle(color: Colors.white),
+          dropdownColor: Colors.grey[900],
+          iconEnabledColor: Colors.white,
+          underline: Container(
+            height: 1,
+            color: Colors.white,
+          ),
           value: dropdownValue,
           items: species
               .map<DropdownMenuItem<String>>(
