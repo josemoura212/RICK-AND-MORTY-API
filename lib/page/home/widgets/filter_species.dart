@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rick_morty/page/home/cubit/home_cubit.dart';
 
 class FilterSpecies extends StatefulWidget {
   const FilterSpecies({
@@ -14,6 +16,9 @@ class _FilterSpeciesState extends State<FilterSpecies> {
     'All',
     'Human',
     'Alien',
+    'Humanoid',
+    'Poopybutthole',
+    'Mythological Creature',
   ];
   String dropdownValue = species.first;
   @override
@@ -31,7 +36,16 @@ class _FilterSpeciesState extends State<FilterSpecies> {
                         child: Text(species),
                       ))
               .toList(),
-          onChanged: (String? value) {},
+          onChanged: (String? value) {
+            if (value != null) {
+              value == "All"
+                  ? context.read<HomeCubit>().fetchPage()
+                  : context.read<HomeCubit>().fetchBySpecies(value);
+              setState(() {
+                dropdownValue = value;
+              });
+            }
+          },
         )
       ],
     );

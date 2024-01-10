@@ -9,7 +9,9 @@ class CardCharacter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, '/character', arguments: person);
+      },
       child: Card(
         child: Row(
           children: [

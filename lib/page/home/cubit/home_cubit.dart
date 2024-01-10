@@ -8,7 +8,6 @@ part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final RickAndMortyRepository repository;
-  int page = 1;
 
   HomeCubit(this.repository) : super(HomeInitial());
 
@@ -19,18 +18,53 @@ class HomeCubit extends Cubit<HomeState> {
     List<PersonModel> currentCharacters =
         (currentState is HomeSuccess) ? currentState.characters : [];
 
-    emit(HomeLoading(characters: currentCharacters));
+    emit(HomeLoading(
+        characters: currentCharacters, hasReachedMax: false, page: state.page));
 
     try {
-      final newCharacters = await repository.findAllPerson(page: page);
+      final newCharacters = await repository.findAllPerson(page: state.page);
 
       if (newCharacters.isEmpty) {
-        emit(HomeSuccess(characters: currentCharacters, hasReachedMax: true));
+        emit(HomeSuccess(
+            characters: currentCharacters,
+            hasReachedMax: true,
+            page: state.page));
       } else {
-        page++;
         emit(HomeSuccess(
             characters: [...currentCharacters, ...newCharacters],
-            hasReachedMax: false));
+            hasReachedMax: false,
+            page: state.page + 1));
+      }
+    } catch (e) {
+      emit(const HomeError('error'));
+    }
+  }
+
+  Future<void> fetchBySpecies(String species) async {
+    if (state is HomeLoading) return;
+    emit(HomeInitial());
+    final currentState = state;
+
+    List<PersonModel> currentCharacters =
+        (currentState is HomeSuccess) ? currentState.characters : [];
+
+    emit(HomeLoading(
+        characters: currentCharacters, hasReachedMax: false, page: state.page));
+
+    try {
+      final newCharacters =
+          await repository.findAllBySpecies(page: state.page, species: species);
+
+      if (newCharacters.isEmpty) {
+        emit(HomeSuccess(
+            characters: currentCharacters,
+            hasReachedMax: true,
+            page: state.page));
+      } else {
+        emit(HomeSuccess(
+            characters: [...currentCharacters, ...newCharacters],
+            hasReachedMax: false,
+            page: state.page + 1));
       }
     } catch (e) {
       emit(const HomeError('error'));

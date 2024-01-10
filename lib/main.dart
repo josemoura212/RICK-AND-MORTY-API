@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
                     child: const HomePage(),
                   ));
         }
-        if (settings.name == '/character') {
+        if (settings.name == '/character') 
+        {
           final person = settings.arguments as PersonModel;
           return MaterialPageRoute(
             builder: (context) => CharacterPage(
