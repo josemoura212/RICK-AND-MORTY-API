@@ -19,21 +19,24 @@ class HomeCubit extends Cubit<HomeState> {
         (currentState is HomeSuccess) ? currentState.characters : [];
 
     emit(HomeLoading(
-        characters: currentCharacters, hasReachedMax: false, page: state.page));
+        characters: currentCharacters,
+        hasReachedMax: false,
+        page: currentState.page));
 
     try {
-      final newCharacters = await repository.findAllPerson(page: state.page);
+      final newCharacters =
+          await repository.findAllPerson(page: currentState.page);
 
       if (newCharacters.isEmpty) {
         emit(HomeSuccess(
             characters: currentCharacters,
             hasReachedMax: true,
-            page: state.page));
+            page: currentState.page));
       } else {
         emit(HomeSuccess(
             characters: [...currentCharacters, ...newCharacters],
             hasReachedMax: false,
-            page: state.page + 1));
+            page: currentState.page + 1));
       }
     } catch (e) {
       emit(const HomeError('error'));
@@ -49,22 +52,25 @@ class HomeCubit extends Cubit<HomeState> {
         (currentState is HomeSuccess) ? currentState.characters : [];
 
     emit(HomeLoading(
-        characters: currentCharacters, hasReachedMax: false, page: state.page));
+        characters: currentCharacters,
+        hasReachedMax: false,
+        page: currentState.page));
 
     try {
-      final newCharacters =
-          await repository.findAllBySpecies(page: state.page, species: species);
+      final newCharacters = await repository.findAllBySpecies(
+          page: currentState.page, species: species);
 
       if (newCharacters.isEmpty) {
         emit(HomeSuccess(
             characters: currentCharacters,
             hasReachedMax: true,
-            page: state.page));
+            page: currentState.page));
       } else {
+        final pageNext = currentState.page + 1;
         emit(HomeSuccess(
             characters: [...currentCharacters, ...newCharacters],
             hasReachedMax: false,
-            page: state.page + 1));
+            page: pageNext));
       }
     } catch (e) {
       emit(const HomeError('error'));

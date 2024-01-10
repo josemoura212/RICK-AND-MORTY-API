@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_morty/model/person_model.dart';
-import 'package:rick_morty/page/character/text_custom.dart';
+import 'package:rick_morty/page/character/widgets/text_custom.dart';
 
 class CardCharacter extends StatelessWidget {
   final PersonModel person;
