@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:rick_morty/model/enum/species_enum.dart';
 
 import 'package:rick_morty/model/person_model.dart';
 import 'package:rick_morty/repository/rick_and_morty_repository.dart';

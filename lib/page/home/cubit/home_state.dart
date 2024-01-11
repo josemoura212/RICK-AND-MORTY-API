@@ -4,11 +4,13 @@ sealed class HomeState extends Equatable {
   final List<PersonModel> characters;
   final bool hasReachedMax;
   final int page;
+  final Species species;
 
   const HomeState({
     this.characters = const [],
     this.hasReachedMax = false,
     this.page = 1,
+    this.species = Species.all,
   });
 
   @override
@@ -21,17 +23,21 @@ sealed class HomeState extends Equatable {
 final class HomeInitial extends HomeState {}
 
 final class HomeLoading extends HomeState {
-  const HomeLoading(
-      {required super.characters,
-      required super.hasReachedMax,
-      required super.page});
+  const HomeLoading({
+    required super.characters,
+    required super.hasReachedMax,
+    required super.page,
+    required super.species,
+  });
 }
 
 final class HomeSuccess extends HomeState {
-  const HomeSuccess(
-      {required super.characters,
-      required super.hasReachedMax,
-      required super.page});
+  const HomeSuccess({
+    required super.characters,
+    required super.hasReachedMax,
+    required super.page,
+    required super.species,
+  });
 }
 
 final class HomeError extends HomeState {
